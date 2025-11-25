@@ -1,0 +1,24 @@
+name: Run App with Secret
+
+on:
+  push:
+    branches:
+      - Feature--Sergio
+
+jobs:
+  run-app:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Build Docker image
+        run: docker build -t miapp .
+
+      - name: Run container with secret
+        run: |
+          docker run -d \
+            -p 8081:8081 \
+            -e MI_SECRETO="${{ secrets.MI_SECRETO }}" \
+            miapp
